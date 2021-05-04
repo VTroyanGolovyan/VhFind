@@ -33,6 +33,8 @@ class Scrapper:
         lw = LinkWorker(url, '')
         for a_element in parser.find_all('a'):
             link_string = str(a_element.get('href'))
+            if link_string.find('https://') == -1 and link_string.find(':') != -1:
+                continue
             if link_string.find('https://') != -1:
                 result.add(link_string)
             else:
