@@ -21,6 +21,7 @@ class Scrapper:
                 pass
 
     def get_urls(self) -> list:
+        """Return scrapped urls list"""
         return list(self.urls)
 
     @staticmethod

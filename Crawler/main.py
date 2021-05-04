@@ -1,3 +1,5 @@
+from config import ConfigStorage
+
 from data_base_adaptor import DataBaseAdaptor
 from scrapper import Scrapper
 from parser import Parser
@@ -6,7 +8,10 @@ import time
 base_urls = ["https://vhdev.software", "https://github.com", "https://mipt.ru"]
 
 num = 0
-db_adaptor = DataBaseAdaptor()
+
+crawler_config = ConfigStorage('/home/vh/VHFind/Crawler/crawler.ini')
+db_adaptor = DataBaseAdaptor(crawler_config.get_config_section('postgresql'))
+
 
 while True:
     sc = Scrapper(base_urls)
