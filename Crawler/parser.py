@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 
 
 class Page:
+    """Class for page data storage"""
     def __init__(self, url: str, title: str, tokenized_content: list):
         self.url = url
         self.title = title
@@ -25,8 +26,10 @@ class Parser:
         )
 
     def parse_all_data(self):
+        """Parse all data from page"""
         self._extract_raw_data()
         parser = BeautifulSoup(self.raw_data, 'lxml')
+        self._parse_title(parser)
         self._tokenize_content(parser)
 
     def _extract_raw_data(self):

@@ -1,0 +1,129 @@
+
+* {
+  font-family: 'Open Sans', sans-serif;
+}
+
+/* remove default body margins and paddings */
+body, html {
+  padding: 0;
+  margin: 0;
+}
+
+
+body > header {
+  width: 100%;
+  background: white;
+  box-shadow: 0 0 4px 1px grey;
+  height: 80px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 10%;
+  width: 80%;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+.logo img {
+  height: 50px;
+}
+
+nav {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+nav a {
+  height: 80px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  margin-left: 24px;
+  cursor: pointer;
+}
+
+nav a::after, nav a::before {
+  content: " ";
+  display: flex;
+  height: 4px;
+  background: #a61111;
+  width: 0%;
+  transition: all 0.6s ease;
+  cursor: pointer;
+}
+
+nav a:hover::after, nav a:hover::before {
+  width: 100%;
+}
+
+main {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+
+footer {
+  width: 100%;
+  background: white;
+  box-shadow: 0 0 4px 1px grey;
+  height: 40px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 0 10%;
+  width: 80%;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+}
+
+.search-chapter {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.search-chapter h1 {
+  color: #a61111;
+  font-size: 72px;
+  margin: 0;
+  padding: 0;
+  margin-bottom: 24px;
+}
+
+.search-chapter input {
+  height: 40px;
+  border-radius: 20px;
+  outline: none;
+  border: solid 1px grey;
+  width: 35vw;
+  padding: 4px 6px;
+  margin-bottom: 24px;
+}
+
+.search-chapter input:focus {
+    box-shadow: 0 0 4px 1px grey;
+}
+
+.find-button {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  height: 40px;
+  width: 10vw;
+  color: white;
+  border-radius: 20px;
+  background: grey;
+  cursor: pointer;
+}
