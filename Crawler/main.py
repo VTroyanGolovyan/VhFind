@@ -5,7 +5,7 @@ from scrapper import Scrapper
 from parser import Parser
 import time
 
-base_urls = ["https://vhdev.software", "https://github.com", "https://mipt.ru"]
+base_urls = ["https://vhdev.software", "https://www.m24.ru/news", "https://mipt.ru"]
 
 num = 0
 
