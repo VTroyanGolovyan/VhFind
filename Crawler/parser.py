@@ -1,5 +1,3 @@
-import re
-
 import requests
 from bs4 import BeautifulSoup
 
@@ -19,6 +17,7 @@ class Parser:
         self.title = ''
 
     def get_page(self) -> Page:
+        """Get parsed page"""
         return Page(
             self.url,
             self.title,
@@ -31,10 +30,12 @@ class Parser:
         self._tokenize_content(parser)
 
     def _extract_raw_data(self):
+        """Extract raw page data(HTML text)"""
         response = requests.get(self.url)
         self.raw_data = response.text
 
     def _tokenize_content(self, bs_parser):
+        """Get tokens list from page text content"""
         body = bs_parser.find('body')
         text = str(body.text)
         text = text.lower()
@@ -44,6 +45,7 @@ class Parser:
 
         self.tokenized_content = text.split()
 
-    def _get_title(self, bs_parser):
+    def _parse_title(self, bs_parser):
+        """Page title"""
         title = bs_parser.find('title')
         self.title = str(title.text)
