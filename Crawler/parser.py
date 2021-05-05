@@ -41,7 +41,7 @@ class Page:
         self.title = title
         self.tokenized_content = tokenized_content
         self.id = 0
-        self.lang = detect(''.join(
+        self.lang = detect(' '.join(
             [token.text for token in self.tokenized_content])
         )
 

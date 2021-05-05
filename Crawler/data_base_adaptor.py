@@ -5,21 +5,25 @@ from contextlib import closing
 
 class DataBaseAdaptor:
     def __init__(self, db_dict: dict):
-        self.db = db_dict['db']
-        self.user = db_dict['user']
-        self.password = db_dict['password']
-        self.host = db_dict['host']
+        self.db = db_dict["db"]
+        self.user = db_dict["user"]
+        self.password = db_dict["password"]
+        self.host = db_dict["host"]
 
     def save_content(self, page: Page):
         """Save page content to data index"""
+        lang_id = self._get_language_id(page)
+        print(page.lang)
+        print(lang_id)
         with closing(self.get_connection()) as conn:
             with conn.cursor() as cursor:
                 cursor.execute(
                     "INSERT INTO urls (url, site, lang, title, visitors, from_nav, quotation) "
-                    " VALUES (%(url)s, 0, 0, %(title)s, 0, FALSE, 0) "
-                    " RETURNING id",
+                    " VALUES (%(url)s, 0, %(lang_id)s, %(title)s, 0, FALSE, 0) "
+                    " RETURNING id ",
                     {
                         "url": page.url,
+                        "lang_id": lang_id,
                         "title": page.title
                     }
                 )
@@ -32,7 +36,7 @@ class DataBaseAdaptor:
         """DB Version"""
         with closing(self.get_connection()) as conn:
             with conn.cursor() as cursor:
-                cursor.execute('SELECT version()')
+                cursor.execute("SELECT version()")
 
     def _save_tokens(self, page: Page):
         tokens = page.get_counted_tokens()
@@ -83,6 +87,31 @@ class DataBaseAdaptor:
                         conn.commit()
             except Exception as e:
                 print(e)
+
+    def _get_language_id(self, page: Page):
+        try:
+            with closing(self.get_connection()) as conn:
+                with conn.cursor() as cursor:
+                    cursor.execute(
+                        "INSERT INTO languages (lang_name) "
+                        " VALUES (%(lang_name)s) "
+                        "ON CONFLICT (lang_name) "
+                        " DO NOTHING ",
+                        {
+                            "lang_name": page.lang
+                        }
+                    )
+                    cursor.execute(
+                        "SELECT id FROM languages WHERE lang_name=%(lang_name)s",
+                        {
+                            "lang_name": page.lang
+                        }
+                    )
+                    lang_id = cursor.fetchone()[0]
+                    conn.commit()
+                    return lang_id
+        except Exception:
+            return 0
 
     def get_connection(self):
         """connection factory"""
