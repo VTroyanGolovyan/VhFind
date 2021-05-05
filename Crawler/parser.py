@@ -1,7 +1,5 @@
 import requests
 from bs4 import BeautifulSoup
-
-# lib for language detecting
 from langdetect import detect
 from fonetika.soundex import RussianSoundex, EnglishSoundex
 
@@ -42,6 +40,7 @@ class Page:
         self.url = url
         self.title = title
         self.tokenized_content = tokenized_content
+        self.id = 0
         self.lang = detect(''.join(
             [token.text for token in self.tokenized_content])
         )
@@ -55,6 +54,9 @@ class Page:
             else:
                 result[token] = 1
         return result
+
+    def set_id(self, id: int):
+        self.id = id
 
 
 class Parser:
