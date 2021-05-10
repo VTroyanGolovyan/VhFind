@@ -11,13 +11,15 @@
   <body>
     <header>
       <div class="logo">
-        <img src="assets/img/logo.png" alt="">
+        <a href="#/">
+          <img src="assets/img/logo.png" alt="">
+        </a>
       </div>
       <nav>
         <a>
           VHdev website
         </a>
-        <a>
+        <a href="#/Signin">
           Sign in
         </a>
         <a>
@@ -25,19 +27,36 @@
         </a>
       </nav>
     </header>
-    <main>
-      <div class="search-chapter">
-        <h1>VHfinder</h1>
-        <input placeholder="Write your query" type="text" name="" value="">
-        <div class="buttons">
-          <div class="find-button">
-            Искать
-          </div>
-        </div>
-      </div>
+    <main id="app">
+
     </main>
     <footer>
       VHdev @ 2021
     </footer>
+    <script src="./assets/js/VHrequest.js"></script>
+    <script src="./assets/js/VHrouter.js"></script>
+    <script src="./assets/js/VHModule.js"></script>
+    <script src="./assets/js/VHMagicFramework.js"></script>
+    <script>
+
+      let finderModule = new Module({
+        template: './templates/find_page.html'
+      })
+
+      let signinModule = new Module({
+        template: './templates/sign_in.html'
+      })
+
+      let routes = [
+        ['/', finderModule],
+        ['/Find', finderModule],
+        ['/Signin', signinModule]
+      ]
+
+      let router = new Router(routes)
+
+      VHmagic.initApp('app', router)
+
+    </script>
   </body>
 </html>
