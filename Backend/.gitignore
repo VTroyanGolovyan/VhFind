@@ -1,0 +1,6 @@
+venv/*
+.idea/*
+.idea
+__pychache__
+__pychache__/*
+
