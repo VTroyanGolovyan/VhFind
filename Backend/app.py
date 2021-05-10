@@ -28,16 +28,6 @@ def find():
     )
 
 
-@app.route('<access_token>/find', methods=['POST', 'OPTIONS'])
-def find(access_token):
-    return json.dumps(
-        {
-            'status': 200,
-            'data': ''
-        }
-    )
-
-
 @app.route('/sign/in', methods=['POST', 'OPTIONS'])
 def sign_in():
     return json.dumps(
@@ -59,7 +49,7 @@ def sign_up():
     )
 
 
-@app.route('<access_token>/sign/out', methods=['POST', 'OPTIONS'])
+@app.route('/<access_token>/sign/out', methods=['POST', 'OPTIONS'])
 def sign_out(access_token):
     return json.dumps(
         {
@@ -69,7 +59,7 @@ def sign_out(access_token):
     )
 
 
-@app.route('<access_token>/history', methods=['GET', 'OPTIONS'])
+@app.route('/<access_token>/history', methods=['GET', 'OPTIONS'])
 def history(access_token):
     return json.dumps(
         {

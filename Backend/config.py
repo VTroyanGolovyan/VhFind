@@ -1,4 +1,5 @@
 from configparser import ConfigParser
+from contextlib import closing
 
 
 class ConfigStorage:

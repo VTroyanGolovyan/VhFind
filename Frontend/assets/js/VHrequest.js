@@ -16,6 +16,6 @@ function VHrequest(requestOptions) {
     xhr.onerror = () => {
       reject(xhr.statusText);
     }
-    xhr.send()
+    xhr.send(requestOptions.data)
   });
 }
