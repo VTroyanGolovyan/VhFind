@@ -40,11 +40,22 @@
     <script>
 
       let finderModule = new Module({
-        template: './templates/find_page.html'
+        template: './templates/find_page.html',
+        model: {
+          queryString: 'query'
+        }
       })
 
       let signinModule = new Module({
-        template: './templates/sign_in.html'
+        template: './templates/sign_in.html',
+        model: {
+          login: 'vh'
+        },
+        handlers: {
+          loginButton: function(model) {
+            alert(model.login)
+          }
+        }
       })
 
       let routes = [
