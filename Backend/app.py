@@ -3,6 +3,8 @@ from flask_cors import CORS
 import json
 from config import ConfigStorage
 from data_base_model import DataBaseAdaptor
+import tokenizer
+
 app = Flask(__name__)
 # Allow cross domain
 app.config['CORS_HEADERS'] = 'Content-Type'
@@ -46,15 +48,30 @@ def sign_in():
     )
 
 
-@app.route('/sign/up', methods=['POST', 'OPTIONS'])
+@app.route('/sign/up', methods=['GET', 'POST', 'OPTIONS'])
 def sign_up():
-    form_data = json.loads(request.data.decode('utf-8'))
-    return json.dumps(
-        {
-            'status': 200,
-            'data': ''
-        }
-    )
+    if request.method == 'POST':
+        salt = tokenizer.gen_salt(10)
+        user_id = db_adaptor.sign_up(
+            request.json['name'],
+            request.json['last_name'],
+            request.json['email'],
+            request.json['age'],
+            tokenizer.get_hash(request.json['password'], salt),
+            salt
+        )
+        if user_id == 0:
+            return {
+                'status': 400,
+                'data': ''
+            }
+        return json.dumps(
+            {
+                'status': 200,
+                'data': ''
+            }
+        )
+    return ''
 
 
 @app.route('/<access_token>/sign/out', methods=['POST', 'OPTIONS'])

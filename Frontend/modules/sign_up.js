@@ -6,6 +6,7 @@ let signupModule = new Module({
     age: '',
     email: '',
     password: '',
+    ckPassword: '',
     check: ''
   },
   handlers: {
@@ -18,8 +19,12 @@ let signupModule = new Module({
         model.check = 'Введите фамилию'
         return
       }
-      if (model.name == '') {
-        model.age = 'Возраст'
+      if (model.age == '') {
+        model.check = 'Введите возраст'
+        return
+      }
+      if (model.ckPassword != model.password) {
+        model.check = 'Пароли не совпадают'
         return
       }
       VHrequest({
@@ -29,10 +34,11 @@ let signupModule = new Module({
           name: model.name,
           last_name: model.last_name,
           email: model.email,
+          age: model.age,
           password: model.password
         }
       }).then((response) => {
-        alert(response)
+        
       })
     }
   }

@@ -36,6 +36,35 @@ class DataBaseAdaptor:
                 )
                 return ' '.join([token[0] for token in cursor])
 
+    def sign_up(
+        self,
+        name,
+        last_name,
+        email,
+        age,
+        pass_hash,
+        salt
+    ):
+        with closing(self.get_connection()) as conn:
+            with conn.cursor() as cursor:
+                cursor.execute(
+                    "INSERT INTO users (name, last_name, email, password, age, confirmation_hash, salt) "
+                    "VALUES (%(name)s, %(last_name)s, %(email)s, %(password)s, %(age)s, %(confirmation_hash)s, %(salt)s) "
+                    "RETURNING id",
+                    {
+                        'name': name,
+                        'last_name': last_name,
+                        'email': email,
+                        'password': pass_hash,
+                        'age': age,
+                        'confirmation_hash': 'soon',
+                        'salt': salt
+                    }
+                )
+                user_id = cursor.fetchone()[0]
+                conn.commit()
+                return user_id
+
     def get_connection(self):
         """connection factory"""
         return psycopg2.connect(
