@@ -7,13 +7,16 @@ function renderResult(data) {
     title.innerHTML = site[1]
     let text = document.createElement('div')
     text.innerHTML = site[3]
+    let lt = document.createElement('div')
+    lt.innerHTML = site[0]
     result.appendChild(a)
+    a.appendChild(lt)
     a.appendChild(title)
     a.appendChild(text)
     a.href = site[0]
     a.target = '_blank'
     a.classList.add('result-link')
-    title.classList.add('result-link-text')
+    lt.classList.add('result-link-text')
     title.classList.add('result-title')
     text.classList.add('result-text')
   }

@@ -199,11 +199,17 @@ footer {
   width: 100%;
   padding-bottom: 4px;
   margin-bottom: 8px;
+  font-weight: bold;
 }
 
 .result-text {
   color: #4d5156;
   font-size: 14px;
+}
+
+.result-link-text {
+  color: black;
+  font-size: 10px;
 }
 
 .find-horizontal input{
