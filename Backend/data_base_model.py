@@ -11,14 +11,30 @@ class DataBaseAdaptor:
 
     def find_query(self, query_tokens):
         with closing(self.get_connection()) as conn:
-            condition = ' OR '.join(["tokens.token='"+ token.lower() + "'" for token in query_tokens])
+            condition = ' OR '.join(["tokens.token LIKE '%" + token.lower() + "%'" for token in query_tokens])
             with conn.cursor() as cursor:
                 cursor.execute(
-                    "SELECT DISTINCT urls.url, urls.title FROM tokens "
+                    "SELECT urls.url, urls.title, "
+                    " sum(log((SELECT COUNT(*) FROM urls) / (tokens.idf + 1)) * ut.tf) "
+                    " as relevance, urls.id FROM tokens "
                     "inner join urls_tokens as ut on tokens.id = ut.token "
-                    "inner join urls on ut.url = urls.id WHERE " + condition
+                    "inner join urls on ut.url = urls.id WHERE " + condition + " GROUP BY urls.id "
+                                                                               " ORDER BY relevance DESC LIMIT 20"
                 )
-                return [(el[0], el[1]) for el in cursor]
+                return [(el[0], el[1], float(el[2]), self.restore_url_content(el[3])) for el in cursor]
+
+    def restore_url_content(self, id):
+        with closing(self.get_connection()) as conn:
+            with conn.cursor() as cursor:
+                cursor.execute(
+                    "SELECT tokens.token, urls_tokens.token_position FROM urls_tokens "
+                    "JOIN tokens on tokens.id=urls_tokens.token "
+                    "WHERE urls_tokens.url=%(url)s ORDER BY urls_tokens.token_position LIMIT 50 OFFSET 450",
+                    {
+                        "url": id
+                    }
+                )
+                return ' '.join([token[0] for token in cursor])
 
     def get_connection(self):
         """connection factory"""

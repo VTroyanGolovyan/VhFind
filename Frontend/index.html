@@ -16,14 +16,14 @@
         </a>
       </div>
       <nav>
-        <a>
-          VHdev website
+        <a href="https://vhdev.software" target="_blank">
+          VHdev сайт
         </a>
         <a href="#/Signin">
-          Sign in
+          Войти
         </a>
-        <a>
-          Sign up
+        <a href="#/Signup">
+          Регистрация
         </a>
       </nav>
     </header>
@@ -33,13 +33,14 @@
     <footer>
       VHdev @ 2021
     </footer>
+
     <script src="./assets/js/VHrequest.js"></script>
     <script src="./assets/js/VHrouter.js"></script>
     <script src="./assets/js/VHModule.js"></script>
     <script src="./assets/js/VHMagicFramework.js"></script>
 
     <script>
-    const SERVER = 'http://127.0.0.1:5000/'
+      const SERVER = 'http://127.0.0.1:5000/'
     </script>
     <script src="./modules/find.js"></script>
     <script src="./modules/sign_in.js"></script>
@@ -51,6 +52,7 @@
         ['/', finderModule],
         ['/Find', finderModule],
         ['/Signin', signinModule],
+        ['/Signup', signupModule],
         ['/Result', resultModule]
       ]
 

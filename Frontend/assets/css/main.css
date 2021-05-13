@@ -19,11 +19,12 @@ body > header {
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding: 0 10%;
-  width: 80%;
+  padding: 0 20%;
+  width: 60%;
   position: fixed;
   top: 0;
   left: 0;
+  z-index: 10000;
 }
 
 .logo img {
@@ -44,6 +45,8 @@ nav a {
   align-items: center;
   margin-left: 24px;
   cursor: pointer;
+  text-decoration: none;
+  color: black;
 }
 
 nav a::after, nav a::before {
@@ -61,11 +64,15 @@ nav a:hover::after, nav a:hover::before {
 }
 
 main {
-  height: 100vh;
+  height: calc(100vh - 120px);
   width: 100vw;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  box-sizing: border-box;
+  padding: 0 20% 0 20%;
+  margin-top: 80px;
+  overflow: scroll;
   align-items: center;
 }
 
@@ -133,10 +140,93 @@ footer {
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
-  width: 40vw;
+  width: 100%;
+  min-height: calc(100vh - 120px);
+  margin-top: 180px;
+  padding-bottom: 24px;
 }
 
-.result a {
+.module-wrapper {
   display: flex;
-  margin: 5px 0;
+  width: 100%;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  position: relative;
+  min-height: calc(100vh - 120px);
+}
+
+.find-horizontal {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: calc(60% - 12px);
+  position: fixed;
+  top: 80px;
+  left: 20%;
+  height: 60px;
+  background: white;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  box-shadow: 0 0 4px 1px grey;
+  z-index: 500;
+  box-sizing: border-box;
+  padding: 5px;
+}
+
+.result-link {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 100%;
+  border-radius: 5px;
+  box-shadow: 0 0 4px 1px grey;
+  box-sizing: border-box;
+  padding: 8px;
+  margin-bottom: 12px;
+  text-decoration: none;
+}
+
+.result-title {
+  border-bottom: solid 1px grey;
+  color: #003e8a;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 100%;
+  padding-bottom: 4px;
+  margin-bottom: 8px;
+}
+
+.result-text {
+  color: #4d5156;
+  font-size: 14px;
+}
+
+.find-horizontal input{
+  display: flex;
+  box-sizing: border-box;
+  margin: 0 5px;
+  flex-grow: 1;
+  height: 40px;
+  border-radius: 20px;
+  outline: none;
+  border: solid 1px grey;
+  width: 35vw;
+  padding: 4px 6px;
+}
+
+.result-logo {
+  font-size: 20px;
+  color: #a61111;
+  font-weight: bold;
+}
+
+.sign-in {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }

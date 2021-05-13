@@ -114,6 +114,28 @@ class DataBaseAdaptor:
         except Exception:
             return 0
 
+    def update_urls_tokens(self):
+        with closing(self.get_connection()) as conn:
+            with conn.cursor() as cursor:
+                cursor.execute(
+                   "SELECT urls_tokens.url, urls_tokens.token, COUNT(*) as cnt FROM urls_tokens GROUP BY urls_tokens.url, urls_tokens.token ORDER BY urls_tokens.url"
+                )
+                for el in cursor:
+                    self._update_tf(el)
+
+    def _update_tf(self, el):
+        with closing(self.get_connection()) as conn:
+            with conn.cursor() as cursor:
+                cursor.execute(
+                    "UPDATE urls_tokens SET tf=%(tf)s WHERE urls_tokens.token=%(token)s AND urls_tokens.url=%(url)s",
+                    {
+                        'tf': el[2],
+                        'token': el[1],
+                        'url': el[0]
+                    }
+                )
+                conn.commit()
+
     def _detect_and_insert_site(self, page: Page):
         try:
             with closing(self.get_connection()) as conn:
