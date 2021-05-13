@@ -1,11 +1,16 @@
 from flask import Flask, request
 from flask_cors import CORS
 import json
-
+from config import ConfigStorage
+from data_base_model import DataBaseAdaptor
 app = Flask(__name__)
 # Allow cross domain
 app.config['CORS_HEADERS'] = 'Content-Type'
 CORS(app)
+
+
+crawler_config = ConfigStorage('/var/www/html/VHFind/Backend/app.ini')
+db_adaptor = DataBaseAdaptor(crawler_config.get_config_section('postgresql'))
 
 
 @app.route('/')
@@ -20,10 +25,11 @@ def empty_request():
 
 @app.route('/find', methods=['POST', 'OPTIONS'])
 def find():
+    form_data = json.loads(request.data.decode('utf-8'))
     return json.dumps(
         {
             'status': 200,
-            'data': ''
+            'data': json.dumps(form_data)
         }
     )
 

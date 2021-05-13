@@ -12,19 +12,20 @@ class DataBaseAdaptor:
 
     def save_content(self, page: Page):
         """Save page content to data index"""
+        site_id = self._detect_and_insert_site(page)
         lang_id = self._get_language_id(page)
-        print(page.lang)
-        print(lang_id)
         with closing(self.get_connection()) as conn:
             with conn.cursor() as cursor:
                 cursor.execute(
-                    "INSERT INTO urls (url, site, lang, title, visitors, from_nav, quotation) "
-                    " VALUES (%(url)s, 0, %(lang_id)s, %(title)s, 0, FALSE, 0) "
+                    "INSERT INTO urls (url, site, lang, title, visitors, from_nav, quotation, doc_length) "
+                    " VALUES (%(url)s, %(site_id)s, %(lang_id)s, %(title)s, 0, FALSE, 0, %(doc_len)s) "
                     " RETURNING id ",
                     {
                         "url": page.url,
                         "lang_id": lang_id,
-                        "title": page.title
+                        "title": page.title,
+                        "doc_len": page.doc_length,
+                        "site_id": site_id
                     }
                 )
                 page.set_id(int(cursor.fetchone()[0]))
@@ -110,6 +111,31 @@ class DataBaseAdaptor:
                     lang_id = cursor.fetchone()[0]
                     conn.commit()
                     return lang_id
+        except Exception:
+            return 0
+
+    def _detect_and_insert_site(self, page: Page):
+        try:
+            with closing(self.get_connection()) as conn:
+                with conn.cursor() as cursor:
+                    cursor.execute(
+                        "INSERT INTO sites (url, subdomain) "
+                        " VALUES (%(url)s, 0) "
+                        "ON CONFLICT (url) "
+                        " DO NOTHING ",
+                        {
+                            "url": page.domain
+                        }
+                    )
+                    cursor.execute(
+                        "SELECT id FROM sites WHERE url=%(url)s",
+                        {
+                            "url": page.domain
+                        }
+                    )
+                    site_id = cursor.fetchone()[0]
+                    conn.commit()
+                    return site_id
         except Exception:
             return 0
 

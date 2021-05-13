@@ -5,7 +5,6 @@ function Router(routes) {
 
   this.routes = new Map()
   for (let route of routes) {
-    //alert(route)
     this.routes.set(route[0], route[1])
   }
 

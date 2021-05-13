@@ -7,7 +7,7 @@ import time
 
 base_urls = ["https://vhdev.software", "https://www.m24.ru/news", "https://mipt.ru"]
 
-crawler_config = ConfigStorage('/home/vh/VHFind/Crawler/crawler.ini')
+crawler_config = ConfigStorage('/var/www/html/VHFind/Crawler/crawler.ini')
 db_adaptor = DataBaseAdaptor(crawler_config.get_config_section('postgresql'))
 
 

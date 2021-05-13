@@ -2,6 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 from langdetect import detect
 from fonetika.soundex import RussianSoundex, EnglishSoundex
+import tldextract
 
 
 def letters_detect(text: str) -> str:
@@ -38,12 +39,15 @@ class Page:
 
     def __init__(self, url: str, title: str, tokenized_content: list):
         self.url = url
+        extracted_domain = tldextract.extract(url)
+        self.subdomain = extracted_domain.subdomain + '.' + extracted_domain.domain + '.' + extracted_domain.suffix
+        self.domain = "{}.{}".format(extracted_domain.domain, extracted_domain.suffix)
         self.title = title
         self.tokenized_content = tokenized_content
         self.id = 0
-        self.lang = detect(' '.join(
-            [token.text for token in self.tokenized_content])
-        )
+        raw_text = ' '.join([token.text for token in self.tokenized_content])
+        self.doc_length = len(raw_text)
+        self.lang = detect(raw_text)
 
     def get_counted_tokens(self) -> dict:
         """Dict with tokens as keys and frequency as values"""
