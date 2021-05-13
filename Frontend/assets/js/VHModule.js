@@ -39,6 +39,9 @@ function Module(settings) {
     );
   }
 
+  this.updateModelFromOut = function(key, val) {
+      this.modelProxy[key] = val
+  }
   this.show = function(container) {
     if (this.templateText == '') {
       VHrequest({
@@ -51,6 +54,11 @@ function Module(settings) {
     } else {
       container.innerHTML = this.templateText
       this.bind(container)
+      try {
+        settings.onshow(this.modelProxy)
+      } catch (ignore) {
+        console.log(ignore)
+      }
     }
   }
 
@@ -68,6 +76,10 @@ function Module(settings) {
           container.value = eval('settings.model.' + inModel)
           container.oninput = () => {
             eval('this.modelProxy.' + inModel +' = "' + container.value + '"')
+            if (container.getAttribute('vh-input')) {
+              let handlername = container.getAttribute('vh-input')
+              eval('settings.handlers.' + handlername + '(this.modelProxy)')
+            }
           }
         } else {
           container.innerHTML = eval('settings.model.' + inModel)

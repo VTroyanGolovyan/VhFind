@@ -13,7 +13,7 @@ crawler_config = ConfigStorage('/var/www/html/VHFind/Backend/app.ini')
 db_adaptor = DataBaseAdaptor(crawler_config.get_config_section('postgresql'))
 
 
-@app.route('/')
+@app.route('/', methods=['GET', 'POST', 'OPTIONS'])
 def empty_request():
     return json.dumps(
         {
@@ -23,15 +23,17 @@ def empty_request():
     )
 
 
-@app.route('/find', methods=['POST', 'OPTIONS'])
+@app.route('/find', methods=['GET', 'POST', 'OPTIONS'])
 def find():
-    form_data = json.loads(request.data.decode('utf-8'))
-    return json.dumps(
-        {
-            'status': 200,
-            'data': json.dumps(form_data)
-        }
-    )
+    if request.method == 'POST':
+        tokens = request.json['query'].split()
+        return json.dumps(
+            {
+                'status': 200,
+                'data': db_adaptor.find_query(tokens)
+            }
+        )
+    return ''
 
 
 @app.route('/sign/in', methods=['POST', 'OPTIONS'])

@@ -6,6 +6,9 @@ function VHrequest(requestOptions) {
        requestOptions.url,
        true
     ) // async XMLHttpRequest
+    if (requestOptions.method == 'POST') {
+      xhr.setRequestHeader('Content-type', 'application/json;charset=UTF-8');
+    }
     xhr.onload = () => {
       if (xhr.status >= 200 && xhr.status < 300) {
           resolve(xhr.responseText);
@@ -16,6 +19,6 @@ function VHrequest(requestOptions) {
     xhr.onerror = () => {
       reject(xhr.statusText);
     }
-    xhr.send(requestOptions.data)
+    xhr.send(JSON.stringify(requestOptions.data))
   });
 }

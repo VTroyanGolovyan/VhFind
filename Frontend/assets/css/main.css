@@ -127,3 +127,16 @@ footer {
   background: grey;
   cursor: pointer;
 }
+
+.result {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 40vw;
+}
+
+.result a {
+  display: flex;
+  margin: 5px 0;
+}

@@ -37,44 +37,21 @@
     <script src="./assets/js/VHrouter.js"></script>
     <script src="./assets/js/VHModule.js"></script>
     <script src="./assets/js/VHMagicFramework.js"></script>
+
     <script>
-
-      const SERVER = 'http://127.0.0.1:5000/'
-
-      let finderModule = new Module({
-        template: './templates/find_page.html',
-        model: {
-          queryString: 'query'
-        }
-      })
-
-      let signinModule = new Module({
-        template: './templates/sign_in.html',
-        model: {
-          login: 'fiifi',
-          password: 'fiifi'
-        },
-        handlers: {
-          loginButton: function(model) {
-            alert(model.login + ' ' + model.password)
-            VHrequest({
-              method: 'POST',
-              url: SERVER + '/sign/in',
-              data: {
-                login: model.login,
-                password: model.password
-              }
-            }).then((response) => {
-              alert(response)
-            })
-          }
-        }
-      })
+    const SERVER = 'http://127.0.0.1:5000/'
+    </script>
+    <script src="./modules/find.js"></script>
+    <script src="./modules/sign_in.js"></script>
+    <script src="./modules/sign_up.js"></script>
+    <script src="./modules/search_result.js"></script>
+    <script>
 
       let routes = [
         ['/', finderModule],
         ['/Find', finderModule],
-        ['/Signin', signinModule]
+        ['/Signin', signinModule],
+        ['/Result', resultModule]
       ]
 
       let router = new Router(routes)
