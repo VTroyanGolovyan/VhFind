@@ -1,17 +1,34 @@
 let signupModule = new Module({
   template: './templates/sign_up.html',
   model: {
-    login: 'fiifi',
-    password: 'fiifi'
+    name: '',
+    last_name: '',
+    age: '',
+    email: '',
+    password: '',
+    check: ''
   },
   handlers: {
-    loginButton: function(model) {
-      alert(model.login + ' ' + model.password)
+    regButton: function(model) {
+      if (model.name == '') {
+        model.check = 'Введите имя'
+        return
+      }
+      if (model.last_name == '') {
+        model.check = 'Введите фамилию'
+        return
+      }
+      if (model.name == '') {
+        model.age = 'Возраст'
+        return
+      }
       VHrequest({
         method: 'POST',
-        url: SERVER + '/sign/in',
+        url: SERVER + '/sign/up',
         data: {
-          login: model.login,
+          name: model.name,
+          last_name: model.last_name,
+          email: model.email,
           password: model.password
         }
       }).then((response) => {
