@@ -38,14 +38,24 @@ def find():
     return ''
 
 
-@app.route('/sign/in', methods=['POST', 'OPTIONS'])
+@app.route('/<access_token>/')
+def find_signed():
+    pass
+
+
+@app.route('/sign/in', methods=['GET', 'POST', 'OPTIONS'])
 def sign_in():
-    return json.dumps(
-        {
-            'status': 200,
-            'data': ''
-        }
-    )
+    if request.method == 'POST':
+        uid, email, password, salt = db_adaptor.get_by_email(request.json['email'])
+        if tokenizer.get_hash(request.json['password'], salt) == password:
+            token = db_adaptor.new_session(uid, tokenizer.generate_token(100))
+            return json.dumps(
+                {
+                    'status': 200,
+                    'data': token
+                }
+            )
+    return ''
 
 
 @app.route('/sign/up', methods=['GET', 'POST', 'OPTIONS'])
