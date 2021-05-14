@@ -32,7 +32,8 @@ let resultModule = new Module({
       VHrequest(
         {
           method: 'POST',
-          url: SERVER + 'find',
+          url: SERVER + (window.localStorage.getItem('token') ?
+                window.localStorage.getItem('token') + '/' : '' ) + 'find',
           data: {
             query: model.queryString
           }
@@ -49,7 +50,8 @@ let resultModule = new Module({
     VHrequest(
       {
         method: 'POST',
-        url: SERVER + 'find',
+        url: SERVER + (window.localStorage.getItem('token') ?
+              window.localStorage.getItem('token') + '/' : '' ) + 'find',
         data: {
           query: model.queryString
         }

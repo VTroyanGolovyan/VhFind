@@ -84,7 +84,7 @@ class DataBaseAdaptor:
         with closing(self.get_connection()) as conn:
             with conn.cursor() as cursor:
                 cursor.execute(
-                    "INSERT INTO sessions (user_id, token) "
+                    "INSERT INTO u_sessions (user_id, token) "
                     " VALUES (%(user)s, %(token)s)",
                     {
                         "user": user,
@@ -99,17 +99,31 @@ class DataBaseAdaptor:
             with closing(self.get_connection()) as conn:
                 with conn.cursor() as cursor:
                     cursor.execute(
-                        "SELECT user FROM sessions"
-                        " WHERE token=%(token)s",
+                        "SELECT user_id FROM u_sessions"
+                        " WHERE token=%(token)s LIMIT 1",
                         {
                             "token": token
                         }
                     )
-                    uid = cursor.fetchone()[0]
+                    x = [x for x in cursor]
+                    uid = x[0][0]
                     conn.commit()
                     return uid
         except Exception as e:
             return 0
+
+    def save_history(self, user, query):
+        with closing(self.get_connection()) as conn:
+            with conn.cursor() as cursor:
+                cursor.execute(
+                    "INSERT INTO requests (user_id, text) "
+                    " VALUES (%(user)s, %(text)s)",
+                    {
+                        "user": user,
+                        "text": query
+                    }
+                )
+                conn.commit()
 
     def get_connection(self):
         """connection factory"""

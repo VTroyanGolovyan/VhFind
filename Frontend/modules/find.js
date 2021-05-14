@@ -5,19 +5,6 @@ let finderModule = new Module({
   },
   handlers: {
     queryInput: function (model) {
-      VHrequest(
-        {
-          method: 'POST',
-          url: SERVER + 'find',
-          data: {
-            query: model.queryString
-          }
-        }
-      ).then(
-        (data) => {
-
-        }
-      )
     },
     result: function(model) {
       window.localStorage.setItem('query', model.queryString)

@@ -16,11 +16,12 @@ let signinModule = new Module({
       }).then((response) => {
         try {
           data = JSON.parse(response)
+          alert(data.data)
           if (data.data == '') {
             return
           }
-          document.localStorage.setItem('token', data.data)
-          location.hash = '#/'
+          window.localStorage.setItem('token', data.data)
+          document.location.hash = '#/'
         } catch (e) {
 
         } finally {

@@ -38,9 +38,20 @@ def find():
     return ''
 
 
-@app.route('/<access_token>/')
-def find_signed():
-    pass
+@app.route('/<access_token>/find', methods=['GET', 'POST', 'OPTIONS'])
+def find_signed(access_token):
+    if request.method == 'POST':
+        user = db_adaptor.get_user_by_token(access_token)
+        print(user)
+        tokens = request.json['query'].split()
+        db_adaptor.save_history(user, request.json['query'])
+        return json.dumps(
+            {
+                'status': 200,
+                'data': db_adaptor.find_query(tokens)
+            }
+        )
+    return ''
 
 
 @app.route('/sign/in', methods=['GET', 'POST', 'OPTIONS'])
